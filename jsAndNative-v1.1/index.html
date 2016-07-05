@@ -1,0 +1,255 @@
+<html>
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type">
+    <meta name="viewport" content="width=320, user-scalable=no"/>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <title>H5调用Native</title>
+    <style>
+        body {
+            color: red;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        div {
+            color: red;;
+        }
+
+        h3 {
+            margin: 0;
+            padding: 0;
+        }
+
+        h3 > button {
+            margin-left: 20px;
+        }
+
+        #nativeLoading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(0, 0, 0, .5);
+        }
+
+        @-webkit-keyframes ball-scale-multiple {
+            0% {
+                -webkit-transform: scale(0);
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            5% {
+                opacity: 1;
+            }
+
+            100% {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            top: 50%;
+            transform: translateY(-30px);
+        }
+
+        .ball-scale-multiple {
+            position: relative;
+            text-align: center;
+        }
+
+        .ball-scale-multiple > div {
+            background-color: rgba(237, 76, 101, 1);
+            width: 15px;
+            height: 15px;
+            border-radius: 100%;
+            margin: 2px;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            opacity: 0;
+            margin: 0;
+            width: 60px;
+            height: 60px;
+            -webkit-animation: ball-scale-multiple 1s 0s linear infinite;
+            animation: ball-scale-multiple 1s 0s linear infinite;
+        }
+
+        .ball-scale-multiple > div:nth-child(2) {
+            -webkit-animation-delay: 0.2s;
+            animation-delay: 0.2s;
+        }
+
+        .ball-scale-multiple > div:nth-child(3) {
+            -webkit-animation-delay: 0.4s;
+            animation-delay: 0.4s;
+        }
+
+    </style>
+</head>
+<!--https://t.meidaojia.com/makeup/jsCallNative.html-->
+<body>
+<div id="nativeLoading">
+    <div class="loader">
+        <div class="loader-inner ball-scale-multiple">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+
+
+<h3>1. alert</h3>
+<button type="button" id="alertA">toast框...
+</button>
+<button type="button" id="alertB" style="margin-left: 15px;">confirm框...
+</button>
+<br/>
+<button type="button" id="alertC">alert框...</button>
+<br/>
+<br/>
+
+
+<h3>2. getConfig</h3>
+<button type="button" id="configA">是否登录</button>
+<button type="button" id="configB" style="margin-left: 15px;">性别</button>
+<br/>
+<button type="button" id="configC">用户ID</button>
+<button type="button" id="configD" style="margin-left: 15px;">版本更新对话框提醒时间间隔
+</button>
+<br/>
+
+<h3>3. onLoaded</h3>
+
+<h3>4. onFullscreenLoaded</h3>
+
+<h3>5. callMethod</h3>
+<button type="button" id="methodA">更新用户信息</button>
+<button type="button" id="methodB" style="margin-left: 15px;">
+    上报token
+</button>
+<br/>
+
+<button type="button" id="methodC">刷新妆容列表（TODO）</button>
+<button type="button" id="methodD" style="margin-left: 15px;">刷新消息列表（TODO）</button>
+<br/>
+
+<button type="button" id="methodE" style="margin-left: 15px;">刷新消息小红点</button>
+<button type="button" id="methodF" style="margin-left: 15px;">埋点</button>
+<br/>
+
+<button type="button" id="methodG" style="margin-left: 15px;">积分获得toast（TODO）</button>
+<button type="button" id="methodH" style="margin-left: 15px;">关闭当前webview</button>
+<br/>
+<br/>
+<br/>
+
+
+<h3>6. openModal
+    <button id="modal" type="button">模态窗口，测试</button>
+</h3>
+
+<select id="bridgeModal">
+    <option value="native_login">登录窗口</option>
+    <option value="native_login">拍睁眼照（TODO）</option>
+    <option value="native_login">拍闭眼照（TODO）</option>
+    <option value="native_login">意见反馈（TODO）</option>
+    <option value="native_video_connect">视频连接化妆师</option>
+    <option value="native_share">分享</option>
+    <option value="native_city_choose">城市选择</option>
+    <option value="native_pay">支付</option>
+    <option value="native_webview">打开一个新的H5页面（TODO）</option>
+</select>
+<br/>
+分享类型：
+<input type="radio" value="1" name="shareType" checked/> 图片分享
+<input type="radio" value="2" name="shareType"/> H5分享
+<br>
+<br>
+
+模态窗口---浏览图片：
+<div id="showBigImg">
+    <img src="https://mdj.oss-cn-hangzhou.aliyuncs.com//8b70d162607b65f007d8ae161a184b11.png" data-index="0"
+         class="showBigImg" width="40" height="40"/>
+    <img src="https://mdj.oss-cn-hangzhou.aliyuncs.com//6ebd5892dc5c1cc37520a5698f471f3a.png" data-index="1"
+         class="showBigImg" width="40" height="40"/>
+    <img src="http://mdj.oss-cn-hangzhou.aliyuncs.com//78ee36b967b654d1bb9229612a80ba2a.png" data-index="2"
+         class="showBigImg" width="40" height="40"/>
+</div>
+<br/>
+<br/>
+
+
+<h3>7. bri_fetchFile拍照
+    <button id="capture" type="button">拍照，点击这里测试</button>
+</h3>
+<select id="bridgeCapture">
+    <option value="1">原图</option>
+    <option value="2">正方形图</option>
+</select>
+<br/>
+<br/>
+<h3>7. bri_fetchFile图库
+    <button id="selectImg" type="button">选图，点击这里测试</button>
+</h3>
+<select id="bridgeSelectImg">
+    <option value="1">选取原图</option>
+    <option value="2">选取正方形图</option>
+</select>
+<br/>
+<br/>
+
+<img src="./null.png" width="100" height="100" id="bridgeCapture_show" style="display: none;"/>
+<br/>
+
+
+<h3>7.bri_fetchFile图库</h3>
+<button type="button">选取原图</button>
+<button type="button" style="margin-left: 15px;">选取方图</button>
+<br/>
+<br/>
+
+
+<h3>8. showActionSheet</h3>
+<button type="button" id="sheetA">showActionSheet1</button>
+<button type="button" id="sheetB" style="margin-left: 15px;">showActionSheet2
+</button>
+<br/>
+
+<div id="bridgeOpenMenu_show"></div>
+<div id="bridgeOpenMenu_show2"></div>
+<br/>
+<br/>
+
+
+<h3>9. redirect</h3>
+<button type="button" id="redirectA">redirect</button>
+<br/>
+<br/>
+
+
+
+<h3>根据抽奖流程模拟一个登录场景：</h3>
+<p>当点击【开始】,getConfig(isLogin)判断是否登录，若未登录，则弹出登录窗口，登录成功后跳转到新页面.</p>
+<button type="button" id="startBtn">开始</button>
+
+<script src="./jsBridgeNativeImprove/jsBridgeNativeImprove.js"></script>
+<script src="./jsBridgeNativeImprove/jsBridgeNativeHandleImprove.js"></script>
+<script src="./jsBridgeNativeImprove/indexImprove.js"></script>
+</body>
+</html>
