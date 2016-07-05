@@ -1,0 +1,264 @@
+<html>
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type">
+    <meta name="viewport" content="width=320, user-scalable=no"/>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <title>H5调用Native</title>
+    <style>
+        body {
+            color: red;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        div {
+            color: red;;
+        }
+
+        h3 {
+            margin: 0;
+            padding: 0;
+        }
+
+        h3 > button {
+            margin-left: 20px;
+        }
+
+        #nativeLoading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(0, 0, 0, .5);
+        }
+
+        @-webkit-keyframes ball-scale-multiple {
+            0% {
+                -webkit-transform: scale(0);
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            5% {
+                opacity: 1;
+            }
+
+            100% {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            top: 50%;
+            transform: translateY(-30px);
+        }
+
+        .ball-scale-multiple {
+            position: relative;
+            text-align: center;
+        }
+
+        .ball-scale-multiple > div {
+            background-color: rgba(237, 76, 101, 1);
+            width: 15px;
+            height: 15px;
+            border-radius: 100%;
+            margin: 2px;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            opacity: 0;
+            margin: 0;
+            width: 60px;
+            height: 60px;
+            -webkit-animation: ball-scale-multiple 1s 0s linear infinite;
+            animation: ball-scale-multiple 1s 0s linear infinite;
+        }
+
+        .ball-scale-multiple > div:nth-child(2) {
+            -webkit-animation-delay: 0.2s;
+            animation-delay: 0.2s;
+        }
+
+        .ball-scale-multiple > div:nth-child(3) {
+            -webkit-animation-delay: 0.4s;
+            animation-delay: 0.4s;
+        }
+
+    </style>
+</head>
+<!--https://t.meidaojia.com/makeup/jsCallNative.html-->
+<body>
+<div id="nativeLoading">
+    <div class="loader">
+        <div class="loader-inner ball-scale-multiple">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+
+
+<h3>1. alert</h3>
+<button type="button" onclick="jsBridgeNative.bri_showAlert(1,'我是toastaa','','',false,'')">toast框...</button>
+<button type="button" onclick="jsBridgeNative.bri_showAlert(2,'content','title','',true,'bri_showAlert_confirmMethod')"
+        style="margin-left: 15px;">confirm框...
+</button>
+<br/>
+<button type="button" onclick="jsBridgeNative.bri_showAlert(3,'alert_content','alert','好的',false,'')">alert框...</button>
+<button type="button" onclick="jsBridgeNative.bri_showAlert(6,'我是toastaa')" style="margin-left: 15px;">返回错误类型</button>
+<br/>
+<br/>
+
+
+<h3>2. getConfig</h3>
+<button type="button" onclick="jsBridgeNative.bri_getConfig('isLogin',true,true)">是否登录</button>
+<button type="button" onclick="jsBridgeNative.bri_getConfig('gender',true,true)" style="margin-left: 15px;">性别</button>
+<br/>
+<button type="button" onclick="jsBridgeNative.bri_getConfig('userID',true,true)">用户ID</button>
+<button type="button" onclick="jsBridgeNative.bri_getConfig('VerUpdateIntervalDayCount',false,true)"
+        style="margin-left: 15px;">版本更新对话框提醒时间间隔
+</button>
+<br/>
+<button type="button" onclick="jsBridgeNative.bri_getConfig('latitude',true,true)">纬度</button>
+<button type="button" onclick="jsBridgeNative.bri_getConfig('longitude',true,true)"
+        style="margin-left: 15px;">经度
+</button>
+<br/>
+<br/>
+
+<h3>3. onLoaded</h3>
+<h3>4. onFullscreenLoaded</h3>
+
+<h3>5. callMethod</h3>
+<button type="button" onclick="jsBridgeNative.bri_callMethod('update_user_info',{},true)">更新用户信息</button>
+<button type="button" onclick="jsBridgeNative.bri_callMethod('report_token',{},true)" style="margin-left: 15px;">
+    上报token
+</button>
+<br/>
+
+<button type="button" onclick="jsBridgeNative.bri_callMethod('refresh_makeup_list',{},true)">刷新妆容列表（TODO）</button>
+<button type="button" onclick="jsBridgeNative.bri_callMethod('refresh_message_list',{},true)" style="margin-left: 15px;">
+    刷新消息列表（TODO）
+</button>
+<br/>
+
+<button type="button" onclick="jsBridgeNative.bri_callMethod('refresh_message_redPoint',{},true)"
+        style="margin-left: 15px;">刷新消息小红点
+</button>
+<button type="button"
+        onclick="jsBridgeNative.bri_callMethod('mob_click',{'clickEvent':'Event_User_Login_Success','clickAttributes':{'orderId':'12345678','money':'$99'}},true)"
+        style="margin-left: 15px;">埋点
+</button>
+<br/>
+
+<button type="button"
+        onclick="jsBridgeNative.bri_callMethod('get_integral',{'count': 10,'info': '获得**积分'},true)" style="margin-left: 15px;">积分获得toast（TODO）
+</button>
+<button type="button"
+        onclick="jsBridgeNative.bri_callMethod('view_close',{},true)" style="margin-left: 15px;">关闭当前webview
+</button>
+<br/>
+<br/>
+<br/>
+
+
+<h3>6. openModal
+    <button id="modal" type="button">模态窗口，测试</button>
+</h3>
+
+<select id="bridgeModal">
+    <option value="native_login">登录窗口</option>
+    <option value="native_login">拍睁眼照（TODO）</option>
+    <option value="native_login">拍闭眼照（TODO）</option>
+    <option value="native_login">意见反馈（TODO）</option>
+    <option value="native_video_connect">视频连接化妆师</option>
+    <option value="native_share">分享</option>
+    <option value="native_city_choose">城市选择</option>
+    <option value="native_pay">支付</option>
+    <option value="native_webview">打开一个新的H5页面（TODO）</option>
+</select>
+<br/>
+分享类型：
+<input type="radio" value="1" name="shareType" checked/> 图片分享
+<input type="radio" value="2" name="shareType"/> H5分享
+<br>
+<br>
+
+模态窗口---浏览图片：
+<div id="showBigImg">
+    <img src="https://mdj.oss-cn-hangzhou.aliyuncs.com//8b70d162607b65f007d8ae161a184b11.png" data-index="0"
+         class="showBigImg" width="40" height="40"/>
+    <img src="https://mdj.oss-cn-hangzhou.aliyuncs.com//6ebd5892dc5c1cc37520a5698f471f3a.png" data-index="1"
+         class="showBigImg" width="40" height="40"/>
+    <img src="http://mdj.oss-cn-hangzhou.aliyuncs.com//78ee36b967b654d1bb9229612a80ba2a.png" data-index="2"
+         class="showBigImg" width="40" height="40"/>
+</div>
+<br/>
+<br/>
+
+
+<h3>7. bri_fetchFile拍照
+    <button id="capture" type="button">拍照，点击这里测试</button>
+</h3>
+<select id="bridgeCapture">
+    <option value="1">原图</option>
+    <option value="2">正方形图</option>
+</select>
+<br/>
+<br/>
+
+<img src="./null.png" width="100" height="100" id="bridgeCapture_show" style="display: none;"/>
+<br/>
+
+
+<h3>bri_fetchFile图库</h3>
+<button type="button" onclick="jsBridgeNative.bri_fetchFile(2,1, false,false, 0.8, false,'markSelectImg')">选取原图</button>
+<button type="button" onclick="jsBridgeNative.bri_fetchFile(2,2, false,false, 0.8, false,'markSelectImgSquare')" style="margin-left: 15px;">
+    选取方图
+</button>
+<br/>
+<br/>
+
+
+<h3>8. showActionSheet</h3>
+<button type="button" onclick="jsBridgeNative.bri_showActionSheet('前端书籍',['JS高级程序设计','Html5一学就会'],'取消','markBook')">
+    showActionSheet1
+</button>
+<button type="button" onclick="jsBridgeNative.bri_showActionSheet('北京区域',['海淀区','朝阳区','顺义区'],'cancel','markAddress')"
+        style="margin-left: 15px;">showActionSheet2
+</button>
+<br/>
+
+<div id="bridgeOpenMenu_show"></div>
+<div id="bridgeOpenMenu_show2"></div>
+<br/>
+<br/>
+
+
+<h3>9. redirect</h3>
+<button type="button" onclick="jsBridgeNative.bri_redirect(10,{'id':'570dea180cf2d7830b5c0675'},false)">redirect
+</button>
+<br/>
+<br/>
+
+<script src="./jsBridgeNative.js"></script>
+<script src="./jsBridgeNativeHandle.js"></script>
+<script src="./index.js"></script>
+</body>
+</html>

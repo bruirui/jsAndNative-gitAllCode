@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+    <meta name="viewport" content="width=320, user-scalable=no"/>
+    <title>jsCallNative</title>
+    <style>
+        body{color: green;}
+        div{color: orangered;}
+    </style>
+</head>
+<body>
+
+Todo列表：<br/>
+5. callMethod()方法：刷新妆容列表、刷新消息列表<br/>
+6. openModal()方法：拍睁眼照、拍闭眼照、意见反馈<br/>
+7. capture()方法：妆前照<br/>
+
+<br>
+<div>以下是ios测试成功方法</div>
+<br>
+1. Alert()方法<br/>
+2. getConfig()方法<br/>
+3. onLoaded()方法<br/>
+4. onFullscreenLoaded()方法<br/>
+5. callMethod()方法：更新用户信息、上报token、刷新消息小红点、埋点<br/>
+6. openModal()方法：登录窗口、视频连接化妆师、分享、浏览图片<br/>
+7. fetchImage()方法：拍摄原图、拍摄正方形图、选取原图、选取方图<br/>
+8. showActionSheet()方法<br/>
+9. redirect()方法<br/>
+
+<h3>ios还未实现方法</h3>
+2016-07-02：
+1、onFullscreenLoaded()方法有问题;
+2、打开城市选择，native返回的数据格式不对;
+3、打开支付窗口，测试不成功；返回status=-1;
+4、打开分享图片窗口，暂时没有实现（图片传递方式未确定）---暂时不考虑该功能;
+
+<br>
+<br>
+<div>以下是Android测试成功方法</div>
+<br>
+1. Alert()方法<br/>
+2. getConfig()方法<br/>
+3. onLoaded()方法<br/>
+4.<br/>
+5. callMethod()方法：更新用户信息、上报token、刷新消息小红点、埋点<br/>
+6. openModal()方法：登录窗口、视频连接化妆师、分享、浏览图片<br/>
+7. capture()方法：原图、方图<br/>
+8. selectImage()方法：原图、方图<br/>
+9. showActionSheet()方法<br/>
+10. redirect()方法<br/>
+
+<h3>Android还未实现方法</h3>
+6. openModal()方法：城市选择、支付<br/>
+
+<h3>Android问题</h3>
+toast框没有返回status<br/>
+callMethod()没有返回status<br/>
+浏览图片时弹出的imageUrl的信息等应该隐藏<br/>
+<br/>
+
+<br>
+<br>
+<script src="./jsBridgeNative.js"></script>
+<script>
+    window.onload = function () {
+        jsBridgeNative.bri_onLoaded('我是新页面','https://t.meidaojia.com/makeup/index.html', '返回index页面', '', '', '', true, true, true, true);
+    //    jsBridgeNative.bri_onFullscreenLoaded(true, true, true, true);
+    }
+    var jsBridgeNativeHandle = {
+        handleErrorStatus: function (status) {
+            var result = '';
+            if (status === -1) {
+                result = '操作失败';
+            } else if (status === 2001) {
+                result = '传递参数错误';
+            } else if (status === 2002) {
+                result = '不支持的类型';
+            } else if (status === 2003) {
+                result = '不存在的方法';
+            }
+            return result;
+        },
+        onlyStatusReturn: function (responseData) {
+            var self = this;
+            if (responseData.status === 0) {
+            } else {
+                jsBridgeNative.bri_showAlert(1, self.handleErrorStatus(responseData.status));
+            }
+        },
+        bri_showAlert_handle_result: function (responseData, mark) {
+            var self = this;
+            self.onlyStatusReturn(responseData);
+        },
+        bri_onFullscreenLoaded_handle_result: function (responseData) {
+            var self = this;
+            if (responseData.status === 0) {
+                jsBridgeNative.isPageInsetApp = true; //是在app内调取页面
+            } else {
+                jsBridgeNative.bri_showAlert(1, self.handleErrorStatus(responseData.status));
+            }
+            console.log("是否在App内打开: " + jsBridgeNative.isPageInsetApp);
+        },
+        bri_onLoaded_handle_result: function (responseData) {
+            var self = this;
+            if (responseData.status === 0) {
+                jsBridgeNative.isPageInsetApp = true; //是在app内调取页面
+            } else {
+                jsBridgeNative.bri_showAlert(1, self.handleErrorStatus(responseData.status));
+            }
+            console.log("是否在App内打开: " + jsBridgeNative.isPageInsetApp);
+        },
+    }
+</script>
+</body>
+</html>

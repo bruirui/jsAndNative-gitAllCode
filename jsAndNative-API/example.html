@@ -1,0 +1,95 @@
+<html >
+    <head>
+        <meta content="text/html; charset=utf-8" http-equiv="content-type">
+        <meta name="viewport" content="width=320, user-scalable=no"/>
+        <meta http-equiv="pragma" content="no-cache">
+        <meta http-equiv="cache-control" content="no-cache">
+        <meta http-equiv="expires" content="0">
+        <title>H5调用Native页面模板</title>
+        <style>
+            body{
+                color: red;
+                position: relative;
+                width: 100%;
+                height: 100%;
+            }
+            #nativeLoading{
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                background: rgba(0,0,0,.5);
+            }
+            @-webkit-keyframes ball-scale-multiple {
+                0% {
+                    -webkit-transform: scale(0);
+                    transform: scale(0);
+                    opacity: 0; }
+
+                5% {
+                    opacity: 1; }
+
+                100% {
+                    -webkit-transform: scale(1);
+                    transform: scale(1);
+                    opacity: 0; }
+            }
+            .loader{
+                width: 60px;
+                height: 60px;
+                margin: 0 auto;
+                text-align: center;
+                position: relative;
+                top: 50%;
+                transform: translateY(-30px);
+            }
+            .ball-scale-multiple{
+                position: relative;
+                text-align: center;
+            }
+            .ball-scale-multiple > div{
+                background-color: rgba(237, 76, 101,1);
+                width: 15px;
+                height: 15px;
+                border-radius: 100%;
+                margin: 2px;
+                -webkit-animation-fill-mode: both;
+                animation-fill-mode: both;
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                opacity: 0;
+                margin: 0;
+                width: 60px;
+                height: 60px;
+                -webkit-animation: ball-scale-multiple 1s 0s linear infinite;
+                animation: ball-scale-multiple 1s 0s linear infinite;
+            }
+            .ball-scale-multiple > div:nth-child(2) {
+                -webkit-animation-delay: 0.2s;
+                animation-delay: 0.2s;
+            }
+            .ball-scale-multiple > div:nth-child(3) {
+                -webkit-animation-delay: 0.4s;
+                animation-delay: 0.4s;
+            }
+
+        </style>
+    </head>
+    <body>
+            <div id="nativeLoading">
+                <div class="loader">
+                    <div class="loader-inner ball-scale-multiple">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+
+    <script src="./jsBridgeNative.js"></script>
+    <script src="./jsBridgeNativeHandle.js"></script>
+    </body>
+</html>
